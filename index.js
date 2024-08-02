@@ -17,7 +17,7 @@ const httpServer = http.createServer(app);
 const iosocket = new Server(httpServer,{cors:{origin:"*"}});
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:"https://sock8-backend.onrender.com/",
     credentials:true
 }));
 app.use(bodyParser.urlencoded({extended:true}));
