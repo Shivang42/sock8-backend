@@ -1,15 +1,15 @@
 import express from "express";
-import auth from "../server/Routes/auth.js";
-import {route,genRoomId} from "../server/Routes/play.js";
+import auth from "./Routes/auth.js";
+import {route,genRoomId} from "./Routes/play.js";
 import cors from "cors";
 import http from "http";
 import {resolve} from "path";
 import session from "express-session";
-import redisClient from "../server/redismodel.js";
+import redisClient from "./redismodel.js";
 import RedisStore from "connect-redis";
 import bodyParser from "body-parser";
 import {Server} from "socket.io";
-import conn from "../server/dbmodel.js";
+import conn from "./dbmodel.js";
 
 
 const app = express()
