@@ -5,7 +5,7 @@ import conn from "../dbmodel.js";
 import {config} from "dotenv";
 import path from 'path';
 const __dirname = path.resolve();
-config({path:path.join(__dirname,'../server/.env')});
+config();
 
 var opts = {
     clientID:process.env.googleclientID,
