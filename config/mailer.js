@@ -3,7 +3,7 @@ import path from "path";
 import { config } from "dotenv";
 
 const __dirname = path.resolve();
-config({ path: path.join(__dirname, '../server/.env') });
+config();
 
 const mailer = createTransport({
     host: 'smtp-relay.brevo.com',
