@@ -1,6 +1,6 @@
 import {createClient} from "redis";
 const redisClient = createClient({
-    url:'redis://:qXp94UMMpGqRULpWeBuXbVfTO2e9Y1rO@redis-14365.c1.asia-northeast1-1.gce.redns.redis-cloud.com:14365/12439507'
+    url:'redis://:qXp94UMMpGqRULpWeBuXbVfTO2e9Y1rO@redis-14365.c1.asia-northeast1-1.gce.redns.redis-cloud.com:14365'
 	
 });
 redisClient.on("error",(err)=>{
