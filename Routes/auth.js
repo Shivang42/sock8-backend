@@ -50,7 +50,7 @@ localinit(Users)
 route.use(passport.initialize())
 route.use(passport.session());
 route.use(cors({
-    origin: "https://sock8-b2a8f.web.app",
+    origin: "https://sock8-b2a8f.web.app/",
     credentials: true
 }))
 
