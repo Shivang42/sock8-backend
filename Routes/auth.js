@@ -107,6 +107,7 @@ route.get("/verify", validator.validator, async (req, res) => {
     }
 });
 route.get("/getData", async (req, res) => {
+    console.log(req.query);
     if (!req.isAuthenticated()) {
         res.status(400).set({ 'Content-Type': 'application/json' }).send({
             "msg": "you are not logged in"
