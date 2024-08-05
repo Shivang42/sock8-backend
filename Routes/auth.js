@@ -55,7 +55,7 @@ route.use(cors({
 }))
 
 route.get("/", (req, res, next) => {
-    console.log(`---->${req.session}`);
+    console.log(req.session);
     console.log(req.user);
     if (req.isAuthenticated()) {
         res.status(200).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'success' });
