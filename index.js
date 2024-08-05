@@ -17,7 +17,7 @@ const httpServer = http.createServer(app);
 const iosocket = new Server(httpServer,{cors:{origin:"*"}});
 
 app.use(cors({
-    origin:`https://${process.env.APP_URL}`,
+    origin:`https://${(process.env.APP_URL.endsWith('/')?process.env.APP_URL.substring(0,process.env.APP_URL.length-1):process.env.APP_URL)}`,
     credentials:true
 }));
 app.use(bodyParser.urlencoded({extended:true}));
