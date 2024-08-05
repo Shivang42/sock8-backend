@@ -17,7 +17,7 @@ const httpServer = http.createServer(app);
 const iosocket = new Server(httpServer,{cors:{origin:"*"}});
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:`https://${process.env.APP_URL}`,
     credentials:true
 }));
 app.use(bodyParser.urlencoded({extended:true}));
@@ -150,11 +150,12 @@ iosocket.of('/play').on('connection',(socket)=>{
             socket.broadcast.emit("user disconnected",socket.userID);
             //Cleanup code here
         }
-        let res = await redisClient.hDel(socket.sessId);
+        console.log(socket.sessionID);
+        let res = await redisClient.del(socket.sessionID);
         console.log(`Deleted session ===>${res}`)
     })
 });
 
 httpServer.listen(5000, () => {
-    console.log("listening at http://localhost:5000");
+    console.log(`listening at ${process.env.SERVER}`);
 })
