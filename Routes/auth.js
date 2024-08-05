@@ -2,7 +2,7 @@ import express from "express"
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
-import jwt from "jsonwebtoken";
+import Cryptr from "cryptr";
 import passport from "passport";
 import { validationResult } from "express-validator";
 import multer from "multer";
@@ -15,7 +15,7 @@ import jwtinit from "../config/jwtAuth.js";
 import localinit from "../config/localAuth.js";
 // import init from "../config/googleAuth.js";
 
-
+const encoder = new Cryptr(process.env.JWT_SECRET);
 const dstorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.resolve() + '/userstorage/photos')
@@ -260,7 +260,7 @@ route.use("/loginlocal", validator.loginvalidator, async (req, res, next) => {
     }
 });
 route.post("/loginlocal", passport.authenticate('local', { failureRedirect: `http://${process.env.APP_URL}?login=false` }), async (req, res)=>{
-    console.log(JSON.stringify(req.session));let tok = await validator.genPwd(JSON.stringify(req.session.passport.user));
+    console.log(JSON.stringify(req.session));let tok = encoder.encrypt(JSON.stringify(req.session.passport.user));
     res.redirect(`http://${process.env.APP_URL}?login=true&token=${tok}`);
 });
 // {successRedirect:`http://${process.env.APP_URL}?login=true`,failureRedirect:`http://${process.env.APP_URL}?login=false`}));
