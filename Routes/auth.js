@@ -63,7 +63,7 @@ route.get("/", (req, res, next) => {
     }
     else if(req.query.token){
         let user = JSON.parse(Cryptr.decrypt(req.query.token));
-        res.status.(200).set({...user,msg:'success'})
+        res.status(200).set({...user,msg:'success'})
     }
     else {
         res.status(400).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'failure' });
