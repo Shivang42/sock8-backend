@@ -184,7 +184,7 @@ route.post("/modify", cachefile.single('modpic'), validator.modvalidator, async 
                 let hashpwd = await validator.genPwd(modpwd);
                 req.body.modpwd = hashpwd;
             }
-            fss.storeImage(user.upic.split(process.env.SERVER+"/files/")[1], req.file.buffer);
+            fss.storeImage(user.ppic.split(process.env.SERVER+"/files/")[1], req.file.buffer);
 
             // Hash password here
             await Users.findOneAndUpdate(
