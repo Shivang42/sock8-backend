@@ -61,8 +61,8 @@ route.get("/", (req, res, next) => {
     if (req.isAuthenticated()) {
         res.status(200).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'success' });
     }
-    else if(req.body.token){
-        let user = JSON.parse(Cryptr.decrypt(req.body.token));
+    else if(req.query.token){
+        let user = JSON.parse(Cryptr.decrypt(req.query.token));
         res.status.(200).set({...user,msg:'success'})
     }
     else {
