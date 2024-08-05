@@ -108,11 +108,7 @@ route.get("/verify", validator.validator, async (req, res) => {
 });
 route.get("/getData", async (req, res) => {
     console.log(req.query);
-    if (!req.isAuthenticated()) {
-        res.status(400).set({ 'Content-Type': 'application/json' }).send({
-            "msg": "you are not logged in"
-        });
-    }else if(req.query.token){
+    if(req.query.token){
         let curruser = JSON.parse(encoder.decrypt(req.query.token));
         console.log(curruser);
          try {
@@ -135,7 +131,12 @@ route.get("/getData", async (req, res) => {
             });
         }
     } 
-    else {
+        else if (!req.isAuthenticated()) {
+        res.status(400).set({ 'Content-Type': 'application/json' }).send({
+            "msg": "you are not logged in"
+        });
+    }
+    else if(req.isAuthenticated()){
         try {
             let user = await Users.findOne({ mail: req.user.user.mail });
             if (!user) {
@@ -156,6 +157,7 @@ route.get("/getData", async (req, res) => {
             });
         }
     }
+    
 });
 route.post("/modify", cachefile.single('modpic'), validator.modvalidator, async (req, res) => {
     if (!req.isAuthenticated()) {
