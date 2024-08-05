@@ -260,7 +260,7 @@ route.use("/loginlocal", validator.loginvalidator, async (req, res, next) => {
 });
 route.post("/loginlocal", passport.authenticate('local', { failureRedirect: `http://${process.env.APP_URL}?login=false` }), function(req, res){
     console.log(JSON.stringify(req.session));console.log(req.get('origin'));
-    res.cookie('newuser',JSON.stringify(req.session), { maxAge: 900000 }).redirect(`http://${process.env.APP_URL}`);
+    res.cookie('newuser',JSON.stringify(req.session), { maxAge: 900000,domain:req.get('origin') }).redirect(`http://${process.env.APP_URL}`);
 });
 // {successRedirect:`http://${process.env.APP_URL}?login=true`,failureRedirect:`http://${process.env.APP_URL}?login=false`}));
 route.post("/signuplocal", validator.validator, async (req, res) => {
