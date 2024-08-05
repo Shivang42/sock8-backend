@@ -111,7 +111,29 @@ route.get("/getData", async (req, res) => {
         res.status(400).set({ 'Content-Type': 'application/json' }).send({
             "msg": "you are not logged in"
         });
-    } else {
+    }else if(req.query.token){
+        let curruser = JSON.parse(encoder.decrypt(req.query.token));
+         try {
+            let user = await Users.findOne({ mail: curruser.mail });
+            if (!user) {
+                res.status(400).set({ 'Content-Type': 'application/json' }).send({
+                    "msg": "invalid user"
+                });
+                return;
+            }
+            res.status(200).set({ 'Content-Type': 'application/json' }).send({
+                "user": user
+            });
+        }
+        catch (e) {
+            console.error("Validating error");
+            res.status(500).set({ 'Content-Type': 'application/json' }).send({
+                "msg": "Server error while validating",
+                "spec": e.toString()
+            });
+        }
+    } 
+    else {
         try {
             let user = await Users.findOne({ mail: req.user.user.mail });
             if (!user) {
