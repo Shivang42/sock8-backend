@@ -160,7 +160,59 @@ route.get("/getData", async (req, res) => {
     
 });
 route.post("/modify", cachefile.single('modpic'), validator.modvalidator, async (req, res) => {
-    if (!req.isAuthenticated()) {
+     if(req.query.token){
+        let curruser = JSON.parse(encoder.decrypt(req.query.token));
+        let errs = validationResult(req);
+        if (!errs.isEmpty()) {
+            errs.array().forEach((err) => {
+                console.log(err);
+            })
+            res.status(400).set({ 'Content-Type': 'application/json' }).send({
+                errors: errs.array()
+            });
+            return;
+        }
+        try {
+            let user = await Users.findOne({ mail: curruser.mail });
+            if (!user) {
+                res.status(400).set({ 'Content-Type': 'application/json' }).send({
+                    "msg": "invalid user"
+                });
+                return;
+            }
+            if (user.passwd != req.body.modpwd) {
+                let hashpwd = await validator.genPwd(modpwd);
+                req.body.modpwd = hashpwd;
+            }
+            fss.storeImage(user.ppic.split(process.env.SERVER+"/files/")[1], req.file.buffer);
+
+            // Hash password here
+            await Users.findOneAndUpdate(
+                { _id: user._id },
+                {
+                    $set: {
+                        name: req.body.modname,
+                        passwd: req.body.modpwd,
+                        phone: req.body.modphone,
+                        uname: req.body.moduname
+                    }
+                });
+            console.log(req.body);
+            res.status(200).set({ 'Content-Type': 'application/json' }).send({
+                "msg": "success"
+            });
+
+        }
+        catch (e) {
+            console.error("Validating error"); console.log(e.toString());
+            res.status(500).set({ 'Content-Type': 'application/json' }).send({
+                "msg": "Server error while validating",
+                "spec": e.toString()
+            });
+
+        }
+    } 
+    else if (!req.isAuthenticated()) {
         res.status(400).set({ 'Content-Type': 'application/json' }).send({
             "msg": "you are not logged in"
         });
