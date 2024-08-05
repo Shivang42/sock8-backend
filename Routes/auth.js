@@ -113,6 +113,7 @@ route.get("/getData", async (req, res) => {
         });
     }else if(req.query.token){
         let curruser = JSON.parse(encoder.decrypt(req.query.token));
+        console.log(curruser);
          try {
             let user = await Users.findOne({ mail: curruser.mail });
             if (!user) {
