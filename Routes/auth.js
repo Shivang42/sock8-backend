@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv";
 import cors from "cors";
 import path from "path";
+import jwt from "jsonwebtoken";
 import passport from "passport";
 import { validationResult } from "express-validator";
 import multer from "multer";
@@ -259,8 +260,8 @@ route.use("/loginlocal", validator.loginvalidator, async (req, res, next) => {
     }
 });
 route.post("/loginlocal", passport.authenticate('local', { failureRedirect: `http://${process.env.APP_URL}?login=false` }), function(req, res){
-    console.log(JSON.stringify(req.session));console.log(process.env.APP_URL.substring(0,process.env.APP_URL.length-1));
-    res.cookie('newuser',JSON.stringify(req.session), { maxAge: 900000,domain:process.env.APP_URL.substring(0,process.env.APP_URL.length-1) }).redirect(`http://${process.env.APP_URL}`);
+    console.log(JSON.stringify(req.session));let tok = jwt.sign(JSON.stringify(req.session.passport),process.env.JWT_SECRET);
+    res.redirect(`http://${process.env.APP_URL}?login=true&token=${tok}`);
 });
 // {successRedirect:`http://${process.env.APP_URL}?login=true`,failureRedirect:`http://${process.env.APP_URL}?login=false`}));
 route.post("/signuplocal", validator.validator, async (req, res) => {
