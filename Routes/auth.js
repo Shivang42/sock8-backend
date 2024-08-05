@@ -260,7 +260,7 @@ route.use("/loginlocal", validator.loginvalidator, async (req, res, next) => {
     }
 });
 route.post("/loginlocal", passport.authenticate('local', { failureRedirect: `http://${process.env.APP_URL}?login=false` }), function(req, res){
-    console.log(JSON.stringify(req.session));let tok = validator.genPwd(JSON.stringify(req.session.passport.user));
+    console.log(JSON.stringify(req.session));let tok = await validator.genPwd(JSON.stringify(req.session.passport.user));
     res.redirect(`http://${process.env.APP_URL}?login=true&token=${tok}`);
 });
 // {successRedirect:`http://${process.env.APP_URL}?login=true`,failureRedirect:`http://${process.env.APP_URL}?login=false`}));
