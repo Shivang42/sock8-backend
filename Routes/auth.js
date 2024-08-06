@@ -281,7 +281,7 @@ route.get('/google/callback', passport.authenticate('google', { failureRedirect:
                 next();
             } else {
                 let tok = encoder.encrypt(JSON.stringify(req.session.passport.user));
-                res.redirect(`http://${process.env.APP_URL}?login=true&token=${tok}`);
+                res.redirect(`http://${process.env.APP_URL}home?login=true&token=${tok}`);
             }
         }
     }
@@ -345,7 +345,7 @@ route.use("/loginlocal", validator.loginvalidator, async (req, res, next) => {
 });
 route.post("/loginlocal", passport.authenticate('local', { failureRedirect: `http://${process.env.APP_URL}?login=false` }), async (req, res)=>{
     let tok = encoder.encrypt(JSON.stringify(req.session.passport.user));
-    res.redirect(`http://${process.env.APP_URL}?login=true&token=${tok}`);
+    res.redirect(`http://${process.env.APP_URL}home?login=true&token=${tok}`);
 });
 // {successRedirect:`http://${process.env.APP_URL}?login=true`,failureRedirect:`http://${process.env.APP_URL}?login=false`}));
 route.post("/signuplocal", validator.validator, async (req, res) => {
