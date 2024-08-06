@@ -92,6 +92,15 @@ iosocket.of('/play').on('connection',(socket)=>{
         socket.emit('left',true);
         delete socket['roomns'];
     });
+    socket.on('closereq',async ()=>{
+        console.log('Served');
+        let reqs = await conn.db('sock8').collection("roomrequests");
+        let del = await reqs.deleteOne({
+            pl1id:socket.publicID
+        });
+        console.log(del);
+        socket.emit("closereqACK",true);
+    });
     socket.on('move',async (nmove)=>{
         console.log(`Sent ${socket.roomns}`);
         socket.to(socket.roomns).emit('move',nmove);
