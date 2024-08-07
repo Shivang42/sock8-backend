@@ -73,13 +73,13 @@ route.get("/temp", (req, res, next) => {
 route.get("/", (req, res, next) => {
     console.log(req.session);
     console.log(req.user);
-    if (req.isAuthenticated()) {
-        res.status(200).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'success' });
-    }
-    else if(req.query.token){
+    if(req.query.token){
         let tokenuser = encoder.decrypt(req.query.token);
         let user = JSON.parse(tokenuser);
         res.status(200).set({ 'Content-Type': 'application/json' }).send({...user,msg:'success'})
+    }
+    else if (req.isAuthenticated()) {
+        res.status(200).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'success' });
     }
     else {
         res.status(400).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'failure' });
