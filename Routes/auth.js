@@ -75,7 +75,7 @@ route.get("/temp", (req, res, next) => {
         res.status(400).json({ user:{}, msg: 'failure' });
     }
     else if(req.query.token){
-        let tokenuser = encoder.decrypt(req.user.token);
+        let tokenuser = encoder.decrypt(req.query.token);
         console.log(req.query.token);
         console.log(tokenuser);
         console.log(JSON.parse(tokenuser));
