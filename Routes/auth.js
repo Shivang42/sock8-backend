@@ -304,7 +304,8 @@ route.get('/google/callback', passport.authenticate('google', { failureRedirect:
                 otp: ''
             }
         }, { upsert: true, setDefaultsOnInsert: true });
-        res.redirect(`http://${process.env.APP_URL}?signupgoogle=true`);
+        let tok = encoder.encrypt(JSON.stringify({uname:req.user.uname,mail:req.user.mail,upic:`http://${process.env.SERVER}/files${dest}`}));
+        res.redirect(`http://${process.env.APP_URL}?token=${tok}&signupgoogle=true`);
     }
 
 })
