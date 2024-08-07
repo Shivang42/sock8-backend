@@ -77,7 +77,8 @@ route.get("/", (req, res, next) => {
         res.status(200).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'success' });
     }
     else if(req.query.token){
-        let user = JSON.parse(encoder.decrypt(req.query.token));
+        let tokenuser = encoder.decrypt(req.query.token);
+        let user = JSON.parse(tokenuser);
         res.status(200).set({ 'Content-Type': 'application/json' }).send({...user,msg:'success'})
     }
     else {
