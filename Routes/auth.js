@@ -54,22 +54,6 @@ route.use(cors({
     origin: "https://sock8-b2a8f.web.app",
     credentials: true
 }))
-
-route.get("/", (req, res, next) => {
-    console.log(req.session);
-    console.log(req.user);
-    if (req.isAuthenticated()) {
-        res.status(200).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'success' });
-    }
-    else if(req.query.token){
-        let user = JSON.parse(encoder.decrypt(req.query.token));
-        res.status(200).set({ 'Content-Type': 'application/json' }).send({...user,msg:'success'})
-    }
-    else {
-        res.status(400).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'failure' });
-    }
-    next();
-})
 route.get("/temp", (req, res, next) => {
     if (req.isAuthenticated()) {
         res.status(400).json({ user:{}, msg: 'failure' });
@@ -86,6 +70,22 @@ route.get("/temp", (req, res, next) => {
         res.status(400).json({user: {}, msg: 'failure' });
     }
 })
+route.get("/", (req, res, next) => {
+    console.log(req.session);
+    console.log(req.user);
+    if (req.isAuthenticated()) {
+        res.status(200).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'success' });
+    }
+    else if(req.query.token){
+        let user = JSON.parse(encoder.decrypt(req.query.token));
+        res.status(200).set({ 'Content-Type': 'application/json' }).send({...user,msg:'success'})
+    }
+    else {
+        res.status(400).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'failure' });
+    }
+    next();
+})
+
 route.get("/verify", validator.validator, async (req, res) => {
     if (req.isAuthenticated()) {
         res.status(400).set({ 'Content-Type': 'application/json' }).send({
