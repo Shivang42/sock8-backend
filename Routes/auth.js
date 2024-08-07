@@ -70,6 +70,18 @@ route.get("/", (req, res, next) => {
     }
     next();
 })
+route.get("/temp", (req, res, next) => {
+    if (req.isAuthenticated()) {
+        res.status(400).json({ user:{}, msg: 'failure' });
+    }
+    else if(req.query.token){
+        let user = JSON.parse(encoder.decrypt(req.query.token));
+        res.status(200).json({...user,msg:'success'})
+    }
+    else {
+        res.status(400).json({user: {}, msg: 'failure' });
+    }
+})
 route.get("/verify", validator.validator, async (req, res) => {
     if (req.isAuthenticated()) {
         res.status(400).set({ 'Content-Type': 'application/json' }).send({
