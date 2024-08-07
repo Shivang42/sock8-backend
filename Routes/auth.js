@@ -78,7 +78,7 @@ route.get("/temp", (req, res, next) => {
         let tokenuser = encoder.decrypt(req.user.token);
         console.log(req.query.token);
         console.log(tokenuser);
-        console.log(JSON.parse(tokenuser);
+        console.log(JSON.parse(tokenuser));
         let user = JSON.parse(encoder.decrypt(req.query.token));
         res.status(200).json({...user,msg:'success'})
     }
