@@ -88,8 +88,9 @@ route.get("/verify", validator.validator, async (req, res) => {
                 delete user['otp']; delete user['id']; delete user['created'];
                 user.history = { tictactoe: [] };
                 await Users.insertOne(user);
-                await UserReqs.deleteOne({ id: user.id })
-                res.redirect(`http://${process.env.APP_URL}/?login=true`);
+                await UserReqs.deleteOne({ id: user.id });
+                let tok = encoder.encrypt(JSON.stringify({uname:user['uname'],mail:user['mail'],ppic:user['upic']}));
+                res.redirect(`http://${process.env.APP_URL}/?token=${tok}&login=true`);
             }
             else {
                 res.status(400).set({ 'Content-Type': 'application/json' }).send({
