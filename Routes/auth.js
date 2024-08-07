@@ -317,7 +317,7 @@ route.get("/logout", (req, res) => {
                 res.status(400).set({ 'Content-Type': 'application/json' }).send({ ...req.user, msg: 'failure' });
             }
             else {
-                res.status(200).redirect(`http://${process.env.APP_URL}`);
+                res.clearCookie('token').status(200).redirect(`http://${process.env.APP_URL}`);
             }
         });
     }
