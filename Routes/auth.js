@@ -405,7 +405,7 @@ route.post("/signuplocal", validator.validator, async (req, res) => {
                         phone: data.signphone,
                         mail: data.signmail,
                         created: (new Date()),
-                        ppic:'https://visualpharm.com/assets/383/User-595b40b75ba036ed117d77db.svg',
+                        ppic:'https://sock8-b2a8f.web.app/logo%20lgbg.png',
                         otp: hashedOTP
                     }
                 }, { upsert: true, setDefaultsOnInsert: true });
