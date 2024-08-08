@@ -180,6 +180,7 @@ route.get("/getData", async (req, res) => {
     
 });
 route.post("/modify", cachefile.single('modpic'), validator.modvalidator, async (req, res) => {
+    console.log(req.query);
      if(req.query.token){
         let curruser = encoder.decrypt(req.query.token);
          console.log(1111);
