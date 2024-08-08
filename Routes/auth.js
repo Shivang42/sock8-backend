@@ -125,10 +125,10 @@ route.get("/verify", validator.validator, async (req, res) => {
 route.get("/getData", async (req, res) => {
     if(req.query.token){
         let curruser = encoder.decrypt(req.query.token);
-        curruser = curruser.user;
         console.log('00000000');
         console.log(curruser);
         curruser = JSON.parse(curruser);
+        curruser = curruser.user;
         console.log(curruser);
         console.log('00000000');
          try {
