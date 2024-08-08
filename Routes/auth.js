@@ -125,11 +125,11 @@ route.get("/verify", validator.validator, async (req, res) => {
 route.get("/getData", async (req, res) => {
     if(req.query.token){
         let curruser = encoder.decrypt(req.query.token);
-        console.log(00000000);
+        console.log('00000000');
         console.log(curruser);
         curruser = JSON.parse(curruser);
         console.log(curruser);
-        console.log(00000000);
+        console.log('00000000');
          try {
             let user = await Users.findOne({ mail: curruser.mail });
             if (!user) {
