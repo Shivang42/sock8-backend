@@ -125,18 +125,25 @@ route.get("/verify", validator.validator, async (req, res) => {
 route.get("/getData", async (req, res) => {
     if(req.query.token){
         let curruser = encoder.decrypt(req.query.token);
-        console.log('00000000');
-        console.log(curruser);
         curruser = JSON.parse(curruser);
         curruser = curruser.user;
-        console.log(curruser);
-        console.log('00000000');
          try {
             let user = await Users.findOne({ mail: curruser.mail });
             if (!user) {
                 res.status(400).set({ 'Content-Type': 'application/json' }).send({
                     "msg": "invalid user"
                 });
+                return;
+            }
+            if(req.query.stats){
+                let wratios = {};
+                user.history.keys()forEach((game)=>{
+                    let wins = user.history[game].filter((match)=>match.result=="win").length;
+                    let matches = user.history[game].length;
+                    wratios[game] = {ratio:wins/matches,matches};
+                });
+
+                res.status(200).json(wratios);
                 return;
             }
             res.status(200).set({ 'Content-Type': 'application/json' }).send({
