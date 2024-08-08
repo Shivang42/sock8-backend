@@ -220,7 +220,7 @@ route.post("/modify", cachefile.single('modpic'), validator.modvalidator, async 
             if(req.file){
                 let dest = `/photos/${user.mail.replaceAll('.', '_')}${path.extname(req.file.originalname)}`;
                 fss.storeImage(`${dest}`, req.file.buffer);
-                upd['ppic'] = `${process.env.SERVER}/files${dest}`;
+                upd['ppic'] = `https://${process.env.SERVER}/files${dest}`;
             }
             
             // Hash password here
