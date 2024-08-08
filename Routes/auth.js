@@ -142,7 +142,7 @@ route.get("/getData", async (req, res) => {
                     let matches = user.history[game].length;
                     wratios[game] = {ratio:wins/matches,matches};
                 });
-
+                console.log(wratios);
                 res.status(200).json(wratios);
                 return;
             }
