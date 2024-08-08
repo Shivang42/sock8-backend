@@ -60,9 +60,6 @@ route.get("/temp", (req, res, next) => {
     }
     else if(req.query.token){
         let tokenuser = encoder.decrypt(req.query.token);
-        console.log(req.query.token);
-        console.log(tokenuser);
-        console.log(JSON.parse(tokenuser));
         let user = JSON.parse(tokenuser);
         res.status(200).json({...user,msg:'success'})
     }
@@ -128,7 +125,9 @@ route.get("/verify", validator.validator, async (req, res) => {
 route.get("/getData", async (req, res) => {
     console.log(req.query);
     if(req.query.token){
-        let curruser = JSON.parse(encoder.decrypt(req.query.token));
+        let curruser = encoder.decrypt(req.query.token);
+        console.log(curruser);
+        curruser = JSON.parse(curruser);
         console.log(curruser);
          try {
             let user = await Users.findOne({ mail: curruser.mail });
