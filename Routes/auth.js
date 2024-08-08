@@ -181,7 +181,12 @@ route.get("/getData", async (req, res) => {
 });
 route.post("/modify", cachefile.single('modpic'), validator.modvalidator, async (req, res) => {
      if(req.query.token){
-        let curruser = JSON.parse(encoder.decrypt(req.query.token));
+        let curruser = encoder.decrypt(req.query.token);
+         console.log(1111);
+         console.log(curruser);
+         curruser = JSON.parse(curruser);
+         console.log(curruser);
+         console.log(1111);
         let errs = validationResult(req);
         if (!errs.isEmpty()) {
             errs.array().forEach((err) => {
