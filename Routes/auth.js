@@ -199,7 +199,7 @@ route.post("/modify", cachefile.single('modpic'), validator.modvalidator, async 
             return;
         }
         try {
-            let user = await Users.findOne({ mail: curruser.mail });
+            let user = await Users.findOne({ mail: curruser.user.mail });
             console.log(user);
             if (!user) {
                 res.status(400).set({ 'Content-Type': 'application/json' }).send({
