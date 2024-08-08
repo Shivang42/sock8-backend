@@ -211,18 +211,23 @@ route.post("/modify", cachefile.single('modpic'), validator.modvalidator, async 
                 let hashpwd = await validator.genPwd(modpwd);
                 req.body.modpwd = hashpwd;
             }
-            fss.storeImage(user.ppic.split(process.env.SERVER+"/files/")[1], req.file.buffer);
-
-            // Hash password here
-            await Users.findOneAndUpdate(
-                { _id: user._id },
-                {
-                    $set: {
+            let upd = {
                         name: req.body.modname,
                         passwd: req.body.modpwd,
                         phone: req.body.modphone,
                         uname: req.body.moduname
-                    }
+                    };
+            if(req.file){
+                let dest = `/photos/${user.mail.replaceAll('.', '_')}${path.extname(req.file.originalname)}`;
+                fss.storeImage(`${dest}`), req.file.buffer);
+                upd['ppic'] = `${process.env.SERVER}/files${dest}`;
+            }
+            
+            // Hash password here
+            await Users.findOneAndUpdate(
+                { _id: user._id },
+                {
+                    $set: upd
                 });
             console.log(req.body);
             res.status(200).set({ 'Content-Type': 'application/json' }).send({
