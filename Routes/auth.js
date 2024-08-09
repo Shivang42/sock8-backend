@@ -139,8 +139,9 @@ route.get("/getData", async (req, res) => {
                 let wratios = {};
                 Object.keys(user.history).forEach((game)=>{
                     let wins = user.history[game].filter((match)=>(match && match.result=="win")).length;
+                    let draws = user.history[game].filter((match)=>(match && match.result=="draw")).length;
                     let matches = user.history[game].length;
-                    wratios[game] = {ratio:wins/matches,matches};
+                    wratios[game] = {ratio:wins/matches,draws,matches};
                 });
                 console.log(wratios);
                 res.status(200).json(wratios);
